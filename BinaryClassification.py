@@ -38,7 +38,7 @@ test_data = torch.randn([10000, 2]).to(device)
 test_labels = (test_data.norm(dim=1) < 1).float().view(-1, 1).to(device)
 
 # Training loop
-for epoch in range(10000):
+for epoch in range(1000):
     optimizer.zero_grad()  # reset gradients
     outputs = net(data)  # forward pass
     loss = criterion(outputs, labels)  # compute loss

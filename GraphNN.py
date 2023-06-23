@@ -1,3 +1,7 @@
+# Erik Connerty
+# 6/23/2023
+# USC - AI institute
+
 import torch
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
