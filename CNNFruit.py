@@ -16,7 +16,7 @@ from Models.CNNFruitModel import Net
 
 #Define the transform for the images
 transform = transforms.Compose([
-    transforms.Resize((64,64)),    # Resize images to 64x64
+    transforms.Resize((128,128)),    # Resize images to 64x64
     transforms.ToTensor(),         # Convert image to PyTorch Tensor data type
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])   # Normalize
 ])
@@ -27,15 +27,16 @@ def Train():
 
     # Load data from folders
     data = datasets.ImageFolder(root='./Data/Fruit', transform=transform)
+    test_data = datasets.ImageFolder(root='./Data/FruitTest', transform=transform)
 
     # Split data into train and test sets
     #train_size = int(.99 * len(data))  # Use 80% of the data for training
     #test_size = len(data) - train_size
     #train_data, test_data = torch.utils.data.random_split(data, [train_size, test_size])
-    train_data = data
+    #train_data = data
     # Create data loaders
-    trainloader = DataLoader(train_data, batch_size=256, shuffle=True,pin_memory=True)
-    #testloader = DataLoader(test_data, batch_size=256, shuffle=True)
+    trainloader = DataLoader(data, batch_size=256, shuffle=True,pin_memory=True,num_workers=8)
+    testloader = DataLoader(test_data, batch_size=8, shuffle=False)
 
     # Create an instance of the model
     model = Net()
@@ -47,10 +48,12 @@ def Train():
 
     # Define loss and optimizer
     criterion = nn.CrossEntropyLoss().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-    # Train the model
-    for epoch in range(25):  # loop over the dataset multiple times
+  # Train the model
+    for epoch in range(100):  # loop over the dataset multiple times
+        model.train()
+        running_loss = 0.0
         for inputs, labels in tqdm(trainloader):
             inputs, labels = inputs.to(device), labels.to(device)
             optimizer.zero_grad()
@@ -58,7 +61,23 @@ def Train():
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-            print(f'\nEpoch {epoch+1}, Loss: {loss.item()}')
+            running_loss += loss.item()
+
+        train_loss = running_loss / len(trainloader)
+
+        model.eval()
+        running_test_loss = 0.0
+        for inputs, labels in tqdm(testloader):
+            inputs, labels = inputs.to(device), labels.to(device)
+            with torch.no_grad():
+                outputs = model(inputs)
+                loss = criterion(outputs, labels)
+            running_test_loss += loss.item()
+
+        test_loss = running_test_loss / len(testloader)
+
+        print(f'\nEpoch {epoch+1}, Train Loss: {train_loss}, Test Loss: {test_loss}')
+            
 
     print('Finished Training')
 
@@ -106,14 +125,15 @@ def Test():
     # Classify an image
     while True:
         classify_image()
-while True:
-    print('Press 1 to train and press 2 to test')
-    user_input = input()
-    if user_input == '1':
-        Train()
-    elif user_input == '2':
-        Test()
-    else:
-        print('Invalid input')
+if __name__ == '__main__':
+    while True:
+        print('Press 1 to train and press 2 to test')
+        user_input = input()
+        if user_input == '1':
+            Train()
+        elif user_input == '2':
+            Test()
+        else:
+            print('Invalid input')
     
 
