@@ -55,7 +55,7 @@ def Train():
 
     # Train the model
     model.train()
-    for epoch in range(100):  # loop over the dataset multiple times
+    for epoch in range(50):  # loop over the dataset multiple times
 
         running_loss = 0.0
         for inputs, labels in tqdm(trainloader):
