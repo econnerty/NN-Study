@@ -51,7 +51,7 @@ def Train():
 
     # Define loss and optimizer
     criterion = nn.CrossEntropyLoss().to(device)
-    optimizer = optim.Adam(model.parameters(), lr=0.01)
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
 
   # Train the model
     for epoch in range(100):  # loop over the dataset multiple times
@@ -68,18 +68,19 @@ def Train():
 
         train_loss = running_loss / len(trainloader)
 
-        model.eval()
-        running_test_loss = 0.0
-        for inputs, labels in tqdm(testloader):
-            inputs, labels = inputs.to(device), labels.to(device)
-            with torch.no_grad():
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
-            running_test_loss += loss.item()
+        #model.eval()
+        #running_test_loss = 0.0
+        # for inputs, labels in tqdm(testloader):
+        #     print(labels)
+        #     inputs, labels = inputs.to(device), labels.to(device)
+        #     with torch.no_grad():
+        #         outputs = model(inputs)
+        #         loss = criterion(outputs, labels)
+        #     running_test_loss += loss.item()
 
-        test_loss = running_test_loss / len(testloader)
+        # test_loss = running_test_loss / len(testloader)
 
-        print(f'\nEpoch {epoch+1}, Train Loss: {train_loss}, Test Loss: {test_loss}')
+        print(f'\nEpoch {epoch+1}, Train Loss: {train_loss}')
             
 
     print('Finished Training')
