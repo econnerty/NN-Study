@@ -31,7 +31,7 @@ labels = (data.norm(dim=1) < 1).float().view(-1, 1).to(device)
 # Create network, define loss function and optimizer
 net = Net().to(device)
 criterion = nn.BCELoss().to(device)  # Binary Cross Entropy Loss
-optimizer = torch.optim.SGD(net.parameters(), lr=0.01)  # Stochastic Gradient Descent
+optimizer = torch.optim.SGD(net.parameters(), lr=.1)  # Stochastic Gradient Descent
 
 # Create test data
 test_data = torch.randn([10000, 2]).to(device)

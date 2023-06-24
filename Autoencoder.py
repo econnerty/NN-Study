@@ -1,3 +1,7 @@
+# Erik Connerty
+# 6/23/2023
+# USC - AI institute
+
 import torch
 from torch import nn
 import matplotlib.pyplot as plt
