@@ -51,11 +51,12 @@ def Train():
 
     # Define loss and optimizer
     criterion = nn.CrossEntropyLoss().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    optimizer = optim.SGD(model.parameters(), lr=0.05)
 
-  # Train the model
+    # Train the model
+    model.train()
     for epoch in range(100):  # loop over the dataset multiple times
-        model.train()
+
         running_loss = 0.0
         for inputs, labels in tqdm(trainloader):
             inputs, labels = inputs.to(device), labels.to(device)

@@ -18,7 +18,7 @@ class Net(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
         self.fc1 = nn.Linear(64 * 8 * 8, 1024)  # 64*8*8 is the flattened volume before FC layers
         self.fc2 = nn.Linear(1024, 30)  # output nodes = number of classes
-        self.dropout = nn.Dropout(0.2)
+        self.dropout = nn.Dropout(0.3)
 
     def forward(self, x):
         x = self.pool(torch.relu(self.conv1(x)))
