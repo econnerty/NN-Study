@@ -38,7 +38,6 @@ def Train():
     #train_data = data
     # Create data loaders
     trainloader = DataLoader(data, batch_size=64, shuffle=True,pin_memory=True,num_workers=6)
-    trainloader = DataLoader(data, batch_size=64, shuffle=True,pin_memory=True,num_workers=6)
     testloader = DataLoader(test_data, batch_size=8, shuffle=False)
 
 
@@ -52,11 +51,7 @@ def Train():
 
     # Define loss and optimizer
     criterion = nn.CrossEntropyLoss().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=0.05)
-
-    # Train the model
-    model.train()
-    for epoch in range(10):  # loop over the dataset multiple times
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
 
     # Train the model
     model.train()
