@@ -28,6 +28,8 @@ def Train():
     # Load data from folders
     data = datasets.ImageFolder(root='./Data/Fruit', transform=transform)
     test_data = datasets.ImageFolder(root='./Data/FruitTest', transform=transform)
+    # Force the class-to-index mappings to be the same
+    test_data.class_to_idx = data.class_to_idx
 
     # Split data into train and test sets
     #train_size = int(.99 * len(data))  # Use 80% of the data for training
@@ -37,6 +39,7 @@ def Train():
     # Create data loaders
     trainloader = DataLoader(data, batch_size=256, shuffle=True,pin_memory=True,num_workers=8)
     testloader = DataLoader(test_data, batch_size=8, shuffle=False)
+
 
     # Create an instance of the model
     model = Net()
