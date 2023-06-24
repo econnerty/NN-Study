@@ -37,7 +37,7 @@ def Train():
     #train_data, test_data = torch.utils.data.random_split(data, [train_size, test_size])
     #train_data = data
     # Create data loaders
-    trainloader = DataLoader(data, batch_size=256, shuffle=True,pin_memory=True,num_workers=8)
+    trainloader = DataLoader(data, batch_size=128, shuffle=True,pin_memory=True,num_workers=4)
     testloader = DataLoader(test_data, batch_size=8, shuffle=False)
 
 
@@ -55,7 +55,7 @@ def Train():
 
     # Train the model
     model.train()
-    for epoch in range(50):  # loop over the dataset multiple times
+    for epoch in range(100):  # loop over the dataset multiple times
 
         running_loss = 0.0
         for inputs, labels in tqdm(trainloader):
