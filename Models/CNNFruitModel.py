@@ -16,9 +16,9 @@ class Net(nn.Module):
         self.conv3 = nn.Conv2d(32, 64, 5, padding=1)
         self.conv4 = nn.Conv2d(64, 128, 5, padding=1)
         self.pool = nn.MaxPool2d(2, 2)
-        self.fc1 = nn.LazyLinear(1024)  # 64*8*8 is the flattened volume before FC layers
-        self.fc2 = nn.Linear(1024, 30)  # output nodes = number of classes
-        self.dropout = nn.Dropout(0.3)
+        self.fc1 = nn.LazyLinear(2048)  # 64*8*8 is the flattened volume before FC layers
+        self.fc2 = nn.Linear(2048, 30)  # output nodes = number of classes
+        self.dropout = nn.Dropout(0.2)
 
     def forward(self, x):
         x = self.pool(torch.relu(self.conv1(x)))
