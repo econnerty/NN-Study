@@ -1,3 +1,4 @@
 Data/*
 Models/__pycache__/
 TrainedModels/GPT2_TrainedModels/
+ModelArchitecture/__pycache__/
