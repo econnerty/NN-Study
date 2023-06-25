@@ -20,7 +20,7 @@ tokenized_dataset = dataset.map(tokenize_function, batched=True)
 
 # Training Arguments
 training_args = TrainingArguments(
-    output_dir="./GPT2_TrainedModels",
+    output_dir="./TrainedModels/GPT2_TrainedModels",
     overwrite_output_dir=True,
     num_train_epochs=1,
     per_device_train_batch_size=1,  # batch size should be as large as you can afford on your hardware
