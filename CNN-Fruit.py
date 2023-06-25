@@ -12,7 +12,7 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 
-from Models.CNNFruitModel import Net
+from ModelArchitecture.CNNFruitModel import Net
 
 #Define the transform for the images
 transform = transforms.Compose([
