@@ -1,3 +1,6 @@
+# Erik Connerty
+# 6/24/2023
+# USC - AI institute
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, pipeline
 
 # Load the model and tokenizer
