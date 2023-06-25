@@ -44,8 +44,8 @@ def Train():
     # Create an instance of the model
     model = Net()
     # Load model if it exists
-    if os.path.isfile('fruitmodel.pt'):
-        model.load_state_dict(torch.load('fruitmodel.pt'))
+    if os.path.isfile('./TrainedModels/fruitmodel.pt'):
+        model.load_state_dict(torch.load('./TrainedModels/fruitmodel.pt'))
         print('Model loaded')
     model.to(device)
 
@@ -87,7 +87,7 @@ def Train():
     print('Finished Training')
 
     # Save the trained model
-    torch.save(model.state_dict(), 'fruitmodel.pt')
+    torch.save(model.state_dict(), './TrainedModels/fruitmodel.pt')
     
 def Test():
     # Load data from folders
@@ -100,7 +100,7 @@ def Test():
 
     # Create an instance of the model
     model = Net()
-    model.load_state_dict(torch.load('fruitmodel.pt'))    # Load the trained model
+    model.load_state_dict(torch.load('./TrainedModels/fruitmodel.pt'))    # Load the trained model
     model = model.to(device)
     model.eval()    # Set the model to evaluation mode
 
