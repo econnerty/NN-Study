@@ -42,4 +42,4 @@ trainer = Trainer(
 trainer.train()
 
 # Save the model
-model.save_pretrained("./GPT-2-neo-imdb")
+model.save_pretrained("./GPT2_TrainedModels")
