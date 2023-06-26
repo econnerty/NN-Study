@@ -52,12 +52,13 @@ trainset = datasets.MNIST(root='./data', train=True, download=True, transform=tr
 trainloader = DataLoader(trainset, batch_size=128, shuffle=True)
 
 # Initialize the autoencoder and the optimizer
-model = Autoencoder(encoding_dim=8).to(device)
+model = Autoencoder(encoding_dim=1).to(device)
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+optimizer = torch.optim.SGD(model.parameters(), lr=.001)
 
 # Training loop
-for epoch in range(15): 
+epochs = 10
+for epoch in range(epochs): 
     for data in trainloader:
         img, _ = data 
         img = img.view(img.size(0), -1)
@@ -68,7 +69,7 @@ for epoch in range(15):
         loss.backward()
         optimizer.step()
 
-    print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, 15, loss.item()))
+    print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, epochs, loss.item()))
 
 # Display the reconstructed images after each epoch
 with torch.no_grad():
