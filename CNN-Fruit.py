@@ -16,9 +16,9 @@ from ModelArchitecture.CNNFruitModel import Net
 
 #Define the transform for the images
 transform = transforms.Compose([
-    transforms.Resize((128,128)),    # Resize images to 64x64
+    transforms.Resize((128,128)),    # Resize images to 128x128
     transforms.ToTensor(),         # Convert image to PyTorch Tensor data type
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])   # Normalize
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])   # Normalize the rgb values
 ])
 
 def Train():
