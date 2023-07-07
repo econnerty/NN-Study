@@ -2,3 +2,4 @@ Data/*
 Models/__pycache__/
 TrainedModels/GPT2_TrainedModels/
 ModelArchitecture/__pycache__/
+Diffusion/ddpm-butterflies-128/
