@@ -751,7 +751,6 @@ def main():
             raise ValueError(
                 f"--caption_column' value '{args.caption_column}' needs to be one of: {', '.join(column_names)}"
             )
-
     # Preprocessing the datasets.
     # We need to tokenize input captions and transform the images.
     def tokenize_captions(examples, is_train=True):
