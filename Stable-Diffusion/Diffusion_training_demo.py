@@ -2,6 +2,7 @@ import torch
 import functools
 from tqdm import tqdm, trange
 import torch.multiprocessing
+
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 # @title Diffusion constant and noise strength
@@ -167,8 +168,8 @@ tfm = Compose([
     ToTensor(),
     Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
-dataset_rsz = CelebA("/home/binxuwang/Datasets", target_type=["attr"],
-                    transform=tfm, download=False) # ,"identity"
+dataset_rsz = CelebA("../Data", target_type=["attr"],
+                    transform=tfm, download=True) # ,"identity"
 #%%
 # def preprocess_dataset(dataset_rsz, ):
 dataloader = DataLoader(dataset_rsz, batch_size=64, num_workers=8, shuffle=False)
@@ -190,6 +191,7 @@ saved_dataset = TensorDataset(x_col, yseq_data)
 # return saved_dataset
 #%%
 import matplotlib.pyplot as plt
+import net_models
 
 def save_sample_callback(score_model, epocs, ckpt_name):
     sample_batch_size = 64
@@ -222,7 +224,7 @@ def save_sample_callback(score_model, epocs, ckpt_name):
 # if not continue_training:
 #   print("initilize new score model...")
 score_model = torch.nn.DataParallel(
-  UNet_Tranformer_attrb(marginal_prob_std=marginal_prob_std_fn))
+  net_models.UNet_Tranformer_attrb(marginal_prob_std=marginal_prob_std_fn))
 score_model = score_model.to(device)
 
 n_epochs =   50

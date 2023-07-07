@@ -108,7 +108,7 @@ class SpatialTransformer(nn.Module):
         return x + x_in
 
 
-class UNet_Tranformer_attrb(nn.Module):
+class UNet_Transformer_attrb(nn.Module):
     """A time-dependent score-based model built upon U-Net architecture."""
 
     def __init__(self, marginal_prob_std, channels=[32, 64, 128, 256], embed_dim=256,
