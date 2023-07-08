@@ -198,8 +198,8 @@ def convert_text_enc_state_dict(text_enc_dict):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--model_path", default='../Data/sd-pencil-model', type=str, required=True, help="Path to the model to convert.")
-    parser.add_argument("--checkpoint_path", default='./out.ckpt', type=str, required=True, help="Path to the output model.")
+    parser.add_argument("--model_path", default='../Diffusion/sd-pencil-model', type=str, required=False, help="Path to the model to convert.")
+    parser.add_argument("--checkpoint_path", default='./out.ckpt', type=str, required=False, help="Path to the output model.")
     parser.add_argument("--half", action="store_true", help="Save weights in half precision.")
 
     args = parser.parse_args()
