@@ -1,9 +1,12 @@
 from diffusers import StableDiffusionPipeline
 import torch
 
-model_path = "./sd-pokemon-model"
+
+model_path = "./sd-pencil-model"
 pipe = StableDiffusionPipeline.from_pretrained(model_path, torch_dtype=torch.float16)
+
 pipe.to("cuda")
 
-image = pipe(prompt="yoda").images[0]
-image.save("yoda-pokemon.png")
+image = pipe(prompt="pokemon").images[0]
+
+image.save("pencil-test.png")
