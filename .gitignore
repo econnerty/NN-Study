@@ -5,4 +5,4 @@ ModelArchitecture/__pycache__/
 Diffusion/ddpm-butterflies-128/
 Diffusion/sd-pokemon-model/
 Diffusion/sd-pencil-model/
-logs/
+TrainedModels/
