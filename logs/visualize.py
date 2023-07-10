@@ -6,8 +6,8 @@ import os
 model_colors = {
     "fruitmodel-cnn-small": 'blue',
     "fruitmodel-cnn-large": 'green',
-    "fruitmodel-large-linear": 'red',
-    "fruitmodel-small-linear": 'yellow'
+    "fruitmodel-linear-large": 'red',
+    "fruitmodel-linear-small": 'yellow'
 }
 
 # Define the total parameters for each model
