@@ -25,7 +25,7 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])   # Normalize the rgb values
 ])
 hparams = {
-    'lr': 0.005,
+    'lr': 0.003,
     'batch_size': 64,
     'num_epochs': 10,
     'weight_decay': 1e-6
