@@ -53,7 +53,7 @@ for file in train_files:
     fig_train.add_trace(go.Scatter(x=average_loss.index, y=average_loss, mode='lines', name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
 
 # Update the layout of the figure
-fig_train.update_layout(title='Average Training Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Average Training Loss')
+fig_train.update_layout(title='Average Training Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Average Training Loss',hovermode='x unified')
 
 # Loop over each test file
 for file in test_files:
@@ -67,7 +67,7 @@ for file in test_files:
     fig_test.add_trace(go.Scatter(x=df["Epoch"], y=df["Test Loss"], mode='lines',name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
 
 # Update the layout of the figure
-fig_test.update_layout(title='Test Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Test Loss')
+fig_test.update_layout(title='Test Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Test Loss', hovermode='x unified')
 
 # Loop over each model
 for model, params in model_params.items():
@@ -79,7 +79,7 @@ fig_params.update_layout(title='Parameter Count for each Model', xaxis_title='Mo
 
 # Define the layout for your Dash app
 app.layout = html.Div(children=[
-    html.H1(children='Neural Fruit Classifier | Convolution vs Linear'),
+    html.H1(children='NN Fruit Classifier | Convolution vs Linear'),
 
     html.Div(children='''
         A dashboard for visualizing training losses, test losses, and parameters count.

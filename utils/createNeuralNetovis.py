@@ -70,10 +70,11 @@ plt.text(1.0, 1.1, 'Output layer', ha='center')
 plt.title('Neural network architecture')
 
 # Legend
+
 input_legend = plt.Line2D((0,1),(0,0), color='b', marker='o', linestyle='')
 weight_legend = plt.Line2D((0,1),(0,0), color='gray')
 bias_legend = plt.Line2D((0,1),(0,0), marker='o', color='w', markerfacecolor='b', markersize=5, markeredgewidth=0.5, markeredgecolor='r')
-plt.legend([input_legend, weight_legend, bias_legend], ['Neurons', 'Weights', 'Biases'])
+#plt.legend([input_legend, weight_legend, bias_legend], ['Neurons', 'Weights', 'Biases'])
 
 ax.set_xlim(-0.2, 1.2)
 ax.set_ylim(-0.1, 1.2)
