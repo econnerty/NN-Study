@@ -17,6 +17,7 @@ import ModelArchitecture.CNNFruitModel as CNNFruitModel
 import ModelArchitecture.CNNFruitModelsmall as CNNFruitModelSmall
 import ModelArchitecture.CNNFruitModelnocnnlarge as CNNFruitModelNoCNNLarge
 import ModelArchitecture.CNNFruitModelnocnnsmall as CNNFruitModelNoCNNSmall
+import ModelArchitecture.CNNFruitModelnew as CNNFruitModelnew
 
 #Define the transform for the images
 transform = transforms.Compose([
@@ -189,8 +190,9 @@ if __name__ == '__main__':
         print('Press 1 to train and press 2 to test')
         user_input = input()
         if user_input == '1':
-            Train(hparams, 'fruitmodel-cnn-large', CNNFruitModel.Net())
-            Train(hparams, 'fruitmodel-cnn-small', CNNFruitModelSmall.Net())
+            Train(hparams, 'fruitmodel-cnn-large', CNNFruitModelnew.Net())
+            Train(hparams, 'fruitmodel-cnn-small', CNNFruitModel.Net())
+            #Train(hparams, 'fruitmodel-cnn-small', CNNFruitModelSmall.Net())
             Train(hparams, 'fruitmodel-large-linear', CNNFruitModelNoCNNLarge.Net())
             Train(hparams, 'fruitmodel-small-linear', CNNFruitModelNoCNNSmall.Net())
         elif user_input == '2':
