@@ -27,7 +27,7 @@ model_info = {
     },
     "fruitmodel-large-linear": {
         "name": "No Convolution: Large",
-        "color": 'yellow',
+        "color": 'orange',
         "params": pd.read_csv("fruitmodel-large-linear_params.csv", header=None).iloc[0, 1]
     }
 }
@@ -133,7 +133,7 @@ app.layout = html.Div(children=[
         figure=fig_test
     ),
     html.Div(children='''
-        The smaller model won! It performed the best because it did not suffer from overfitting, and used convolution to accurately learn training images.
+        The smaller model won! It performed the best because it did not overfit the data and used convolution to learn patterns in the images more efficiently.
     ''',style={'font-weight': 'bold','font-size': '30px'}),
     
     dcc.Graph(
