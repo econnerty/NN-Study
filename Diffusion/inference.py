@@ -7,6 +7,6 @@ pipe = StableDiffusionPipeline.from_pretrained(model_path, torch_dtype=torch.flo
 
 pipe.to("cuda")
 
-image = pipe(prompt="pokemon").images[0]
+image = pipe(prompt="5 pencils").images[0]
 
-image.save("pencil-test.png")
+image.save("output.png")
