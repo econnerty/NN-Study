@@ -1,6 +1,14 @@
 import pandas as pd
 import plotly.graph_objects as go
 import os
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+
+##TODO: Add pictures that we are classifying, maybe add optimizers, add descriptions of each plot.
+
+# Initialize Dash app
+app = dash.Dash(__name__)
 
 # Define distinct colors for each model
 model_colors = {
@@ -25,8 +33,10 @@ all_files = [file for file in os.listdir() if file.endswith('.csv')]
 train_files = [file for file in all_files if "train" in file]
 test_files = [file for file in all_files if "test" in file]
 
-# Create a figure
-fig = go.Figure()
+# Create three figures
+fig_train = go.Figure()
+fig_test = go.Figure()
+fig_params = go.Figure()
 
 # Loop over each training file
 for file in train_files:
@@ -40,16 +50,10 @@ for file in train_files:
     model_name = file.replace("_train.csv", "")
     
     # Add a trace to the figure
-    fig.add_trace(go.Scatter(x=average_loss.index, y=average_loss, mode='lines', name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
+    fig_train.add_trace(go.Scatter(x=average_loss.index, y=average_loss, mode='lines', name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
 
 # Update the layout of the figure
-fig.update_layout(title='Average Training Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Average Training Loss')
-
-# Display the figure
-fig.show()
-
-# Create a figure
-fig = go.Figure()
+fig_train.update_layout(title='Average Training Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Average Training Loss',hovermode='x unified')
 
 # Loop over each test file
 for file in test_files:
@@ -60,24 +64,60 @@ for file in test_files:
     model_name = file.replace("_test.csv", "")
     
     # Add a trace to the figure
-    fig.add_trace(go.Scatter(x=df["Epoch"], y=df["Test Loss"], mode='lines',name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
+    fig_test.add_trace(go.Scatter(x=df["Epoch"], y=df["Test Loss"], mode='lines',name=f'{model_name} (Params: {model_params[model_name]})', line=dict(color=model_colors[model_name])))
 
 # Update the layout of the figure
-fig.update_layout(title='Test Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Test Loss')
-
-# Display the figure
-fig.show()
-
-# Create a new figure for the parameter counts
-fig = go.Figure()
+fig_test.update_layout(title='Test Loss per Epoch for each Model', xaxis_title='Epoch', yaxis_title='Test Loss', hovermode='x unified')
 
 # Loop over each model
 for model, params in model_params.items():
     # Add a bar to the figure
-    fig.add_trace(go.Bar(x=[model], y=[params], name=model, marker=dict(color=model_colors[model])))
+    fig_params.add_trace(go.Bar(x=[model], y=[params], name=model, marker=dict(color=model_colors[model])))
 
 # Update the layout of the figure
-fig.update_layout(title='Parameter Count for each Model', xaxis_title='Model', yaxis_title='Parameter Count')
+fig_params.update_layout(title='Parameter Count for each Model', xaxis_title='Model', yaxis_title='Parameter Count')
 
-# Display the figure
-fig.show()
+# Define the layout for your Dash app
+app.layout = html.Div(children=[
+    html.H1(children='NN Fruit Classifier | Convolution vs Linear'),
+
+    html.Div(children='''
+        A dashboard for visualizing training losses, test losses, and parameters count.
+    ''',style={'margin-bottom': '50px','font-weight': 'bold'}),
+    html.Div(children='''
+    A visualization of what a typical feed-forward neural network looks like. The input layer is the image of the fruit, the hidden layers are the neurons, and the output layer is the classification.
+'''),
+    html.Img(src=app.get_asset_url('architecture.png'), style={'width': '100%', 'height': 'auto'}),
+
+    html.Div(children='''
+        A simple bar chart comparing the number of parameters for each model. More parameters will typically mean more memory usage, higher train times, and slower inference.
+             If the architecture is designed well, more parameters will also mean better performance.
+    '''),
+    dcc.Graph(
+        id='example-graph-params',
+        figure=fig_params
+    ),
+    html.Div(children='''
+        The train loss for each model. The train loss is the average loss for each epoch. Our models were trained a data set of 30,000
+             labeled images of various different fruits and vegetables.
+    '''),
+    dcc.Graph(
+        id='example-graph-training',
+        figure=fig_train
+    ),
+        html.Div(children='''
+        The test loss as evaluated on a real word data set of 60 images taken from the internet. As we can see, training loss doesn't not always indicate good performance on real world
+                 data. This is why we use a test set to evaluate our model. The fully linear models suffer from a phenomena known as overfitting.
+    '''),
+
+    dcc.Graph(
+        id='example-graph-test',
+        figure=fig_test
+    ),
+
+
+])
+
+# Run the Dash app
+if __name__ == '__main__':
+    app.run_server(debug=True)
