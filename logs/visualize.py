@@ -226,7 +226,7 @@ app.layout = html.Div(children=[
     A visualization of what a typical feed-forward neural network looks like. The input layer is the image of the fruit, the hidden layers are the neurons, and the output layer is the classification.
 ''',style={'font-weight': 'bold','font-size': '15px'}),
 
-
+    html.H2(children='Parameter Count:'),
     html.Div(children='''
         A simple bar chart comparing the number of parameters for each model. More parameters will typically mean more memory usage, higher train times, and slower inference.
              If the architecture is designed well, more parameters will also mean better performance.
@@ -235,6 +235,7 @@ app.layout = html.Div(children=[
         id='example-graph-params',
         figure=fig_params
     ),
+    html.H2(children='Training Loss (lower is better):'),
     html.Div(children='''
         The train loss for each model. The train loss is the average loss for each epoch. Our models were trained a data set of 30,000
              labeled images of various different fruits and vegetables.
@@ -244,6 +245,7 @@ app.layout = html.Div(children=[
         figure=fig_train
     ),
         html.P('Note: Thicker lines are models that contain convolutional layers',style={'margin-bottom': '50px'}),
+        html.H2(children='Test Loss (the most important) (lower is better):'),
         html.Div(children='''
         The test loss as evaluated on a real word data set of ~60 images taken from the internet. As we can see, training loss doesn't always indicate good performance on real world
                  data. This is why we use a test set to evaluate our model. The non-convolutional models suffer from a phenomena known as overfitting.
@@ -254,6 +256,8 @@ app.layout = html.Div(children=[
         figure=fig_test
     ),
     html.P('Note: Thicker lines are models that contain convolutional layers',style={'margin-bottom': '50px'}),
+
+    html.H2(children='Results:'),
 
     html.Div(children='''
         The smaller model won! It avoided overfitting the data and used convolution to learn patterns in the inputs more effectively.
