@@ -7,6 +7,13 @@ import dash_html_components as html
 
 import humanize
 
+# Define a sort key function that retrieves the order of a model in `model_info`
+def sort_key(file_name):
+    file_base = file_name.replace("_train.csv", "")
+    # Use the index method to get the order in `model_info`
+    order = list(model_info.keys()).index(file_base)
+    return order
+
 def num_to_word(num):
     if num >= 1e9:
         # For billion parameters
@@ -51,12 +58,15 @@ all_files = [file for file in os.listdir() if file.endswith('.csv')]
 
 # Separate the training and test files
 train_files = [file for file in all_files if "train" in file]
+# Sort `train_files` using this function
+train_files.sort(key=sort_key)
 test_files = [file for file in all_files if "test" in file]
 
 # Create three figures
 fig_train = go.Figure()
 fig_test = go.Figure()
 fig_params = go.Figure()
+fig_params2 = go.Figure()
 
 # Loop over each training file
 for file in train_files:
@@ -154,6 +164,52 @@ for file_base, info in model_info.items():
 # Update the layout of the figure
 fig_params.update_layout(title='Parameter Count for each Model', xaxis_title='Model', yaxis_title='Parameter Count (millions)')
 
+# Loop over each model
+for file_base, info in model_info.items():
+    if info["name"] in ['With Convolution: Small', 'With Convolution: Large']:
+        # If the model is one of the ones to highlight, give it a thick, dark border
+        line = dict(color='black', width=5)
+    else:
+        # Otherwise, give it no border
+        line = dict(width=0)
+    
+    # Add a bar to the figure
+    fig_params2.add_trace(go.Bar(
+        x=[info["name"]], 
+        y=[info["params"]], 
+        name=info["name"], 
+        marker=dict(
+            color=info["color"],
+            line=line
+        )
+    ))
+
+# Update the layout of the figure
+fig_params2.update_layout(title='Parameter Count for each Model', xaxis_title='Model', yaxis_title='Parameter Count (millions)')
+
+# Get the winner's information
+winner_info = next(iter(model_info.items()))
+
+# Add the arrow and the text
+fig_params2.add_annotation(
+    x=winner_info[1]["name"], 
+    y=winner_info[1]["params"]*1.2, 
+    text="Winner!",
+    showarrow=True,
+    font=dict(
+        size=20,
+        color="black"
+    ),
+    align="center",
+    arrowhead=1,
+    arrowsize=2,
+    arrowwidth=3,
+    arrowcolor="red",
+    ax=0,
+    ay=-60,
+)
+
+
 # Define the layout for your Dash app
 app.layout = html.Div(children=[
     html.H1(children='NN Fruit Classifier | With Convolution vs Without Convolution'),
@@ -164,8 +220,7 @@ app.layout = html.Div(children=[
     html.Img(src=app.get_asset_url('architecture.svg'), style={'width': '100%', 'height': 'auto'}),
     html.H2(children='What is Convolution?'),
     html.Div(children='''
-    Convolution is a technique for learning patterns in structured data. For the purpose of image recongnition, it can be thought of as passing several filters over an input image and learning
-    its most important features. It can be used anytime the input data needs a sense of spatial importance (I.E the data needs spatial information to be preserved).
+    Convolution is a technique for learning patterns in structured data. For the purpose of image recongnition, it can be thought of as using several filters to learn important features about an input image. It can be used anytime the location of the data points needs to be understood.
 ''',style={'margin-bottom': '50px','font-weight': 'bold'}),
     html.Div(children='''
     A visualization of what a typical feed-forward neural network looks like. The input layer is the image of the fruit, the hidden layers are the neurons, and the output layer is the classification.
@@ -190,7 +245,7 @@ app.layout = html.Div(children=[
     ),
         html.P('Note: Thicker lines are models that contain convolutional layers',style={'margin-bottom': '50px'}),
         html.Div(children='''
-        The test loss as evaluated on a real word data set of 60 images taken from the internet. As we can see, training loss doesn't not always indicate good performance on real world
+        The test loss as evaluated on a real word data set of ~60 images taken from the internet. As we can see, training loss doesn't always indicate good performance on real world
                  data. This is why we use a test set to evaluate our model. The non-convolutional models suffer from a phenomena known as overfitting.
     ''',style={'font-weight': 'bold','font-size': '15px'}),
 
@@ -201,12 +256,12 @@ app.layout = html.Div(children=[
     html.P('Note: Thicker lines are models that contain convolutional layers',style={'margin-bottom': '50px'}),
 
     html.Div(children='''
-        The smaller model won! It performed the best because it did not overfit the data and used convolution to learn patterns in the images more efficiently.
-    ''',style={'font-weight': 'bold','font-size': '30px'}),
+        The smaller model won! It avoided overfitting the data and used convolution to learn patterns in the inputs more effectively.
+    ''',style={'font-weight': 'bold','font-size': '20px'}),
     
     dcc.Graph(
     id='example-graph-params2',
-    figure=fig_params
+    figure=fig_params2
     ),
 
 ])
