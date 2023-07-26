@@ -5,6 +5,20 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import humanize
+
+def num_to_word(num):
+    if num >= 1e9:
+        # For billion parameters
+        return humanize.intword(num, format='%.2f')
+    elif num >= 1e6:
+        # For million parameters
+        return humanize.intword(num, format='%.2f')
+    else:
+        # For less than a million parameters
+        return str(num)
+
+
 # Initialize Dash app
 app = dash.Dash(__name__)
 
@@ -75,7 +89,7 @@ for file in train_files:
         x=average_loss.index,
         y=average_loss,
         mode='lines',
-        name=f'{model_name} (Params: {model_params})',
+        name=f'{model_name} (Params: {num_to_word(model_params)})',
         line=dict(color=model_color, width=2) # You may need to adjust the width depending on the 'border' width
     ))
 
@@ -110,7 +124,7 @@ for file in test_files:
         x=df["Epoch"],
         y=df["Test Loss"],
         mode='lines',
-        name=f'{model_name} (Params: {model_params})',
+        name=f'{model_name} (Params: {num_to_word(model_params)})',
         line=dict(color=model_color, width=2) # You may need to adjust the width depending on the 'border' width
     ))
 
